@@ -19,7 +19,7 @@ def get_video_transcript(video_url):
         return str(e)
 
 def summarize_text(text_to_summarize):
-    response = openai.ChatCompletion.create(
+    response = openai.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
             {
