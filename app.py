@@ -1,4 +1,5 @@
 import os
+import re
 import openai
 from youtube_transcript_api import YouTubeTranscriptApi
 from dotenv import load_dotenv
@@ -9,7 +10,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_video_transcript(video_url):
     try:
-        video_id = video_url.split("v=")[1]
+        video_id = extract_youtube_id(video_url)
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
         text = ""
         for entry in transcript:
@@ -17,6 +18,13 @@ def get_video_transcript(video_url):
         return text
     except Exception as e:
         return str(e)
+    
+
+
+def extract_youtube_id(url):
+    regex = r'(youtu\.be/|youtube\.com/watch\?v=)([^&?/\s]+)'
+    match = re.search(regex, url)
+    return match.group(2)
 
 def summarize_text(text_to_summarize):
     response = openai.chat.completions.create(
