@@ -11,9 +11,9 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 def get_video_transcript(video_url):
     try:
         video_id = extract_youtube_id(video_url)
-        transcript = YouTubeTranscriptApi.get_transcript(video_id)
+        text_to_summarize = YouTubeTranscriptApi.get_transcript(video_id)
         text = ""
-        for entry in transcript:
+        for entry in text_to_summarize:
             text += entry['text'] + " "
         return text
     except Exception as e:
